@@ -1,15 +1,17 @@
 import express from "express";
 import { GoogleGenAI } from "@google/genai";
 import { parseTranscript, selectUtterances, splitUtterancesIntoSentences } from "./src/audio.js";
+import { createGenerationRateLimiter } from "./src/rate-limit.js";
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;
 const model = process.env.GEMINI_TTS_MODEL || "gemini-3.8-flash-tts";
 
+app.set("trust proxy", 1);
 app.use(express.json({ limit: "64kb" }));
 app.use(express.static("public"));
 
-app.post("/api/generate", async (req, res) => {
+app.post("/api/generate", createGenerationRateLimiter(), async (req, res) => {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     return res.status(503).json({ error: "Set GEMINI_API_KEY before generating audio." });

@@ -32,4 +32,8 @@ Agent: I have a question about my order.
 The player highlights words in sequence based on their relative length and the audio duration. Gemini does not return word-level timestamps for this generation flow, so the highlight and sentence boundaries are estimates rather than forced alignment.
 
 Run unit tests with `npm test`.
+
+## Deploy to Render
+
+The included `render.yaml` defines a free Render web service. Connect this repository to Render and deploy the Blueprint; enter `GEMINI_API_KEY` as a secret when prompted or in the service's environment settings. The service limits each client IP to 10 audio-generation requests per 15 minutes. This is a basic throttle, not a hard spending cap; review Gemini API quotas and billing before sharing the public URL.
 # CallAudioGenerator
