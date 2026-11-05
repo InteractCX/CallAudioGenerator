@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f7f7f4">
+    <title>Call Audio Studio</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Call Audio Studio home">
+          <span class="brand-mark" aria-hidden="true">◖</span>
+          <span>call audio <strong>studio</strong></span>
+        </a>
+        <span class="secure-label"><span></span> Gemini voice studio</span>
+      </header>
+
+      <section class="intro">
+        <p class="eyebrow">CONVERSATION LAB</p>
+        <h1>Make every<br><em>word</em> sound right.</h1>
+        <p class="intro-copy">Turn a call-center script into a natural two-person conversation. Pick a voice for each speaker, generate, and listen along.</p>
+      </section>
+
+      <section class="workspace" aria-label="Call audio generator">
+        <div class="editor-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">01 / YOUR SCRIPT</p>
+              <h2>Conversation</h2>
+            </div>
+            <button class="text-button" id="load-example" type="button">Load example</button>
+          </div>
+          <label class="sr-only" for="transcript">Call transcript</label>
+          <textarea id="transcript" spellcheck="false" aria-describedby="format-help" placeholder="Caller: Thanks for calling. How can I help?&#10;Agent: Hi, I have a question about my order."></textarea>
+          <div class="editor-footer">
+            <span id="format-help">Start each turn with <b>Caller:</b> or <b>Agent:</b></span>
+            <span id="line-count">0 turns</span>
+          </div>
+        </div>
+
+        <aside class="settings-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">02 / CAST YOUR CALL</p>
+              <h2>Voices</h2>
+            </div>
+          </div>
+          <label class="voice-field">
+            <span class="speaker-label"><span class="speaker-dot caller-dot"></span> Caller</span>
+            <select id="caller-voice" aria-label="Caller voice"></select>
+          </label>
+          <label class="style-field" for="caller-style">
+            <span>Caller voice style</span>
+            <textarea id="caller-style" rows="2" maxlength="500" placeholder="e.g. Warm, a little rushed, and concerned"></textarea>
+          </label>
+          <label class="voice-field">
+            <span class="speaker-label"><span class="speaker-dot agent-dot"></span> Agent</span>
+            <select id="agent-voice" aria-label="Agent voice"></select>
+          </label>
+          <label class="style-field" for="agent-style">
+            <span>Agent voice style</span>
+            <textarea id="agent-style" rows="2" maxlength="500" placeholder="e.g. Calm, professional, and reassuring"></textarea>
+          </label>
+          <div class="voice-note"><span aria-hidden="true">✳</span> Voices are Gemini prebuilt voices. Each speaker keeps their selected voice throughout the call.</div>
+          <div class="generate-actions" aria-label="Choose which speaker audio to generate">
+            <button class="generate-button generate-secondary" id="generate-caller" type="button">
+              <span>Caller only</span><span aria-hidden="true">↗</span>
+            </button>
+            <button class="generate-button generate-secondary" id="generate-agent" type="button">
+              <span>Agent only</span><span aria-hidden="true">↗</span>
+            </button>
+            <button class="generate-button" id="generate-both" type="button">
+              <span>Generate both</span><span aria-hidden="true">↗</span>
+            </button>
+          </div>
+          <p class="privacy-note">Your script is sent to Gemini to generate audio.</p>
+        </aside>
+      </section>
+
+      <section class="player-panel" id="player-panel" aria-label="Audio player">
+        <div class="player-topline">
+          <div>
+            <p class="eyebrow">03 / LISTEN BACK</p>
+            <h2>Your conversation</h2>
+          </div>
+          <span class="status-pill" id="player-status">READY</span>
+        </div>
+        <label class="playback-mode" for="playback-mode">
+          <span>Playback</span>
+          <select id="playback-mode">
+            <option value="continuous">Play continuously</option>
+            <option value="pause-after-caller">Pause after each caller sentence</option>
+          </select>
+        </label>
+        <div class="now-playing" id="now-playing">
+          <span class="play-indicator" aria-hidden="true">▶</span>
+          <p>Generate your conversation to hear it here.</p>
+        </div>
+        <div class="player-controls">
+          <button id="play-pause" class="play-button" type="button" disabled aria-label="Play conversation">▶</button>
+          <div class="track">
+            <div class="track-meta"><span id="track-position">0:00</span><span id="track-duration">0:00</span></div>
+            <div class="progress-track"><div id="progress"></div></div>
+          </div>
+          <button id="stop" class="stop-button" type="button" disabled>Stop</button>
+        </div>
+        <div id="error-message" class="error-message" role="alert" hidden></div>
+        <div id="transcript-view" class="transcript-view" aria-live="polite"></div>
+      </section>
+
+      <footer><span>Built for the conversations that keep business moving.</span><span>Powered by Gemini</span></footer>
+      <audio id="audio" preload="auto"></audio>
+    </main>
+  </body>
+</html>
